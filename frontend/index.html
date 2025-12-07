@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKAIA Puerto - Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>🚢 EKAIA Puerto</h1>
+                <p>Sistema de Control Vehicular - Puerto de Iquique</p>
+            </div>
+            <div class="status">
+                <span id="connection-status" class="status-badge disconnected">Desconectado</span>
+                <span id="timestamp"></span>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🚗</div>
+                <div class="stat-content">
+                    <div class="stat-label">Vehículos Dentro</div>
+                    <div class="stat-value" id="vehicles-inside">0</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📤</div>
+                <div class="stat-content">
+                    <div class="stat-label">Salidas Hoy</div>
+                    <div class="stat-value" id="exits-today">0</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-content">
+                    <div class="stat-label">Tiempo Promedio</div>
+                    <div class="stat-value" id="avg-duration">0 min</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📹</div>
+                <div class="stat-content">
+                    <div class="stat-label">Cámaras Activas</div>
+                    <div class="stat-value" id="cameras-active">0/2</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Camera Streams -->
+        <div class="streams-grid">
+            <div class="stream-container">
+                <div class="stream-header">
+                    <h3>📹 Cámara Entrada</h3>
+                    <span class="camera-status" id="entrada-status">●</span>
+                </div>
+                <div class="stream-wrapper">
+                    <img id="stream-entrada" src="/stream/entrada" alt="Entrada Stream">
+                    <div class="stream-overlay">
+                        <div id="entrada-detections" class="detections-overlay"></div>
+                    </div>
+                </div>
+                <div class="stream-info">
+                    <span id="entrada-info">Esperando stream...</span>
+                </div>
+            </div>
+
+            <div class="stream-container">
+                <div class="stream-header">
+                    <h3>📹 Cámara Salida</h3>
+                    <span class="camera-status" id="salida-status">●</span>
+                </div>
+                <div class="stream-wrapper">
+                    <img id="stream-salida" src="/stream/salida" alt="Salida Stream">
+                    <div class="stream-overlay">
+                        <div id="salida-detections" class="detections-overlay"></div>
+                    </div>
+                </div>
+                <div class="stream-info">
+                    <span id="salida-info">Esperando stream...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Latest Detection -->
+        <div class="latest-detection">
+            <h3>🎯 Última Detección</h3>
+            <div id="latest-plate" class="plate-display">
+                <div class="plate-text">---</div>
+                <div class="plate-meta">Esperando detección...</div>
+            </div>
+        </div>
+
+        <!-- Vehicles Inside -->
+        <div class="vehicles-section">
+            <h3>🚗 Vehículos en Puerto</h3>
+            <div class="table-container">
+                <table id="vehicles-table">
+                    <thead>
+                        <tr>
+                            <th>Patente</th>
+                            <th>Hora Entrada</th>
+                            <th>Tiempo Dentro</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vehicles-tbody">
+                        <tr>
+                            <td colspan="4" class="empty-state">No hay vehículos en el puerto</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="activity-section">
+            <h3>📋 Registro de Actividad</h3>
+            <div class="log-container" id="activity-log">
+                <div class="log-entry">Sistema iniciado</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>
