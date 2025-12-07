@@ -10,7 +10,13 @@ import logging
 import cv2
 import numpy as np
 
-from app.services import get_detector, get_ocr_service, get_stream_manager, VehicleTracker
+from app.services import (
+    VehicleTracker,
+    get_detector,
+    get_detection_cooldown,
+    get_ocr_service,
+    get_stream_manager,
+)
 from app.models import DatabaseManager
 from app.config import get_settings
 
@@ -74,6 +80,7 @@ async def detect_on_camera(
     # Get services
     detector = get_detector(settings.yolo_model_path, settings.yolo_device, settings.yolo_confidence)
     ocr = get_ocr_service(use_gpu=settings.ocr_gpu)
+    cooldown = get_detection_cooldown()
     tracker = VehicleTracker(db)
 
     # Detect
@@ -95,14 +102,13 @@ async def detect_on_camera(
         }
         plates_with_ocr.append(plate_info)
 
-        # Register in tracker if valid
-        if plate_text and ocr_conf > 0.6:
+        # Register in tracker if valid and not throttled
+        if plate_text and ocr_conf > 0.6 and cooldown.allow(plate_text, camera_name):
             if camera_name == "entrada":
                 await tracker.register_entry(plate_text, plate_det.confidence)
             elif camera_name == "salida":
                 await tracker.register_exit(plate_text, plate_det.confidence)
 
-            # Log detection
             await tracker.log_detection(
                 camera=camera_name,
                 plate=plate_text,

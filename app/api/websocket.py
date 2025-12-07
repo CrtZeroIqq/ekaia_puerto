@@ -9,7 +9,13 @@ import json
 import logging
 from datetime import datetime
 
-from app.services import get_detector, get_ocr_service, get_stream_manager, VehicleTracker
+from app.services import (
+    VehicleTracker,
+    get_detector,
+    get_detection_cooldown,
+    get_ocr_service,
+    get_stream_manager,
+)
 from app.models import DatabaseManager
 from app.config import get_settings
 
@@ -74,6 +80,7 @@ async def websocket_realtime(websocket: WebSocket):
     detector = get_detector(settings.yolo_model_path, settings.yolo_device, settings.yolo_confidence)
     ocr = get_ocr_service(use_gpu=settings.ocr_gpu)
     stream_manager = get_stream_manager()
+    cooldown = get_detection_cooldown()
 
     try:
         while True:
@@ -102,7 +109,7 @@ async def websocket_realtime(websocket: WebSocket):
                             for plate_det in plate_detections:
                                 plate_text, ocr_conf = ocr.extract_from_bbox(frame, plate_det.bbox)
 
-                                if plate_text and ocr_conf > 0.6:
+                                if plate_text and ocr_conf > 0.6 and cooldown.allow(plate_text, camera_name):
                                     plates.append({
                                         "text": plate_text,
                                         "confidence": plate_det.confidence,
