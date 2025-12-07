@@ -6,15 +6,20 @@ set -e
 echo "🔧 Setting up EKAIA Puerto..."
 
 # Check Python version
-REQUIRED_PYTHON="3.11"
+MIN_PYTHON="3.10"
+RECOMMENDED_PYTHON="3.11"
 PYTHON_VERSION=$(python3 --version | cut -d' ' -f2 | cut -d'.' -f1,2)
 
-if (( $(echo "$PYTHON_VERSION < $REQUIRED_PYTHON" | bc -l) )); then
-    echo "❌ Python $REQUIRED_PYTHON or higher required. Found: $PYTHON_VERSION"
+if (( $(echo "$PYTHON_VERSION < $MIN_PYTHON" | bc -l) )); then
+    echo "❌ Python $MIN_PYTHON or higher required. Found: $PYTHON_VERSION"
     exit 1
 fi
 
-echo "✅ Python version: $PYTHON_VERSION"
+if (( $(echo "$PYTHON_VERSION < $RECOMMENDED_PYTHON" | bc -l) )); then
+    echo "⚠️  Python $RECOMMENDED_PYTHON+ recomendado. Continuando con $PYTHON_VERSION..."
+else
+    echo "✅ Python version: $PYTHON_VERSION"
+fi
 
 # Create virtual environment
 if [ ! -d "venv" ]; then

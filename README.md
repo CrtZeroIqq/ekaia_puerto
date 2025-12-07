@@ -40,7 +40,7 @@ Plataforma de visión por computadora en tiempo real para detección de vehícul
 | Componente | Tecnología |
 |------------|-----------|
 | **ML/CV** | PyTorch, YOLO, PaddleOCR |
-| **Backend** | FastAPI, Python 3.11+ |
+| **Backend** | FastAPI, Python 3.10+ (se recomienda 3.11+) |
 | **Database** | MySQL 8.0 |
 | **Frontend** | HTML5, CSS3, JavaScript (Vanilla) |
 | **Streaming** | OpenCV, RTSP, WebSockets |
@@ -56,7 +56,7 @@ Plataforma de visión por computadora en tiempo real para detección de vehícul
 - Ubuntu 24.04 (WSL2)
 - NVIDIA GPU (RTX 5070 o similar)
 - CUDA 12.4+
-- Python 3.11+
+- Python 3.10+ (idealmente 3.11+)
 - Docker & Docker Compose
 - Modelo YOLO en `/home/seidgc/ekaia-engine/models/patentes.pt`
 
