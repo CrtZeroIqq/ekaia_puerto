@@ -92,6 +92,8 @@ nano .env
 ```bash
 # Database
 DB_PASSWORD=tu_password_seguro
+# Cambia solo si 3306 está ocupado en tu host
+# DB_HOST_PORT=3307
 
 # Cámaras RTSP
 RTSP_ENTRADA=rtsp://admin:password@192.168.88.107:554/cam/realmonitor?channel=1&subtype=0
